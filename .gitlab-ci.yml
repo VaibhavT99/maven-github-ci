@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y maven
+
+maven_build:
+  stage: build
+  script:
+    - mvn clean package
+
+maven_test:
+  stage: test
+  script:
+    - mvn test
+
+maven_pmd_check:
+  stage: test
+  script:
+    - mvn pmd:check
+
+# You can add more stages and jobs as needed for your specific requirements.
+
+# Define pipeline settings
+only:
+  - master  # Run the pipeline only on changes to the master branch
